@@ -1,5 +1,5 @@
 <?php
-namespace ZabbixReporting\Command;
+namespace Command;
 
 abstract class AbstractAggregateCommand extends AbstractCommand
 {

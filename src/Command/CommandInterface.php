@@ -1,5 +1,5 @@
 <?php
-namespace ZabbixReporting\Command;
+namespace Command;
 
 use Zend\Stdlib\Hydrator;
 use Zend\EventManager;
