@@ -264,18 +264,18 @@ class AddToFieldOnFoo extends AbstractAggregateCommand
             $addValueToFooField->setFoo($foo);
             
             $command->executeChild($addValueToFooField);
-        });
+        }, 10);
         
         $command->getEventManager()->attach(static::guessEventName($addValueToFooField), function(CommandEvent $event) use ($command, $persistFoo) {
             $foo = $event->getResult();
             $persistFoo->setFoo($foo);
             
             $command->executeChild($persistFoo);
-        });
+        }, 10);
         
         $command->getEventManager()->attach(static::guessEventName($persistFoo), function(CommandEvent $event) use ($command, &$result) {
             $result = $event->getResult();
-        });
+        }, 10);
         
         $this->executeChild($findFoo);
         
