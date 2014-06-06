@@ -317,3 +317,99 @@ class AddToFieldOnFoo extends AbstractAggregateCommand
     
 }
 ```
+
+## Refactoring Controller Methods
+
+**Without Command Object**
+```php
+<?php
+namespace Foo;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Application\Service;
+
+class FooController extends AbstractActionController
+{
+    protected $fooService;
+    
+    public function __construct(Service\FooService $fooService) {
+        $this->setFooService($fooService);
+    }
+    
+    public function addValueToFieldOnFoo()
+    {
+        $fooService = $this->getFooService();
+    
+        $fooId = $this->params('foo_id');
+        $fieldToAddTo = $this->params()->fromPost('field_to_add_to');
+        $amountToAdd = $this->params()->fromPost('amount_to_add');
+        
+        $foo = $fooService->findById($fooId);
+        
+        $fieldValue = $foo->getField($fieldToAddTo);
+        $fieldValue += $amountToAdd;
+        
+        $foo->setField($fieldToAddTo, $fieldValue);
+        
+        $fooService->persist($foo);
+    }
+    
+    public function getFooService()
+    {
+        return $this->fooService;
+    }
+    
+    public function setFooService($fooService)
+    {
+        $this->fooService = $fooService;
+        return $this;
+    }
+    
+}
+```
+
+**With Command Object**
+```php
+<?php
+namespace Foo;
+
+use Zend\Mvc\Controller\AbstractActionController;
+use Application\Command;
+
+class FooController extends AbstractActionController
+{
+    protected $addToFieldOnFoo;
+    
+    public function __construct(Command\AddToFieldOnFoo $addToFieldOnFoo) {
+        $this->setAddToFieldOnFoo($addToFieldOnFoo);
+    }
+    
+    public function addValueToFieldOnFoo()
+    {
+        $addToFieldOnFoo = $this->getAddToFieldOnFoo();
+    
+        $fooId = $this->params('foo_id');
+        $fieldToAddTo = $this->params()->fromPost('field_to_add_to');
+        $amountToAdd = $this->params()->fromPost('amount_to_add');
+        
+        $addToFieldOnFoo->getFindFoo()->getFooId($fooId);
+        $addToFieldOnFoo->getAddValueToFooField()
+            ->setFieldToAddTo('bar')
+            ->setAmountToAdd(5);
+            
+        $addToFieldOnFoo->execute();
+    }
+    
+    public function getAddToFieldOnFoo()
+    {
+        return $this->addToFieldOnFoo;
+    }
+    
+    public function setAddToFieldOnFoo($addToFieldOnFoo)
+    {
+        $this->addToFieldOnFoo = $addToFieldOnFoo;
+        return $this;
+    }
+    
+}
+```
