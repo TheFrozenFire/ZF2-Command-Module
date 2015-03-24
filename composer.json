@@ -1,0 +1,11 @@
+{
+    "name": "thefrozenfire/zf2-command-module",
+    "description": "Command object pattern implementation",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Justin Martin",
+            "email": "frozenfire@thefrozenfire.com"
+        }
+    ]
+}
