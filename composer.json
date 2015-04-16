@@ -7,5 +7,14 @@
             "name": "Justin Martin",
             "email": "frozenfire@thefrozenfire.com"
         }
-    ]
+    ],
+    "require-dev": {
+        "zendframework/zend-stdlib": "~2.3",
+        "zendframework/zend-eventmanager": "~2.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Command\\": "src/"
+        }
+    }
 }

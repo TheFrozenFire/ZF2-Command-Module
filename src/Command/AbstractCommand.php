@@ -8,7 +8,7 @@ abstract class AbstractCommand implements CommandInterface
 {
     use Hydrator\HydratorAwareTrait {
         Hydrator\HydratorAwareTrait::getHydrator as private traitGetHydrator;
-    };
+    }
     use EventManager\EventManagerAwareTrait;
     
     public function getHydrator()
