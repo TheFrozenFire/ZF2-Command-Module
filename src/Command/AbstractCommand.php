@@ -26,6 +26,6 @@ abstract class AbstractCommand implements CommandInterface
     
     private static function addHydratorMethodFilter($hydrator, $method)
     {
-        $hydrator->addFilter($method, new Filter\MethodMatchFilter($method), Filter\FilterComposite::CONDITION_AND);
+        $hydrator->addFilter($method, new Hydrator\Filter\MethodMatchFilter($method), Hydrator\Filter\FilterComposite::CONDITION_AND);
     }
 }
